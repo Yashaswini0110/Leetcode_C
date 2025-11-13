@@ -1,19 +1,25 @@
-class Solution:
-    def isValidSudoku(self, board: List[List[str]]) -> bool:
-        cols=collections.defaultdict(set)
-        rows=collections.defaultdict(set)
-        squares=collections.defaultdict(set)
+class Solution(object):
+    def isValidSudoku(self, board):
+        rows = collections.defaultdict(set)
+        cols = collections.defaultdict(set)
+        squares = collections.defaultdict(set)  # key = (r//3, c//3)
 
         for r in range(9):
-            for c in range (9):
-                if board[r][c]==".":
+            for c in range(9):
+                if board[r][c] == ".":
                     continue
-                if (board[r][c] in rows[r] or board[r][c] in cols[c] or board[r][c] in squares[r//3,c//3]):
-                    return False
-                cols[c].add(board[r][c])
-                rows[r].add(board[r][c])
-                squares[(r//3 , c//3)].add (board[r][c])
-        return True
-             
 
-        
+                val = board[r][c]
+
+                # If already exists in row, column, or 3x3 block → invalid.
+                if (val in rows[r] or
+                    val in cols[c] or
+                    val in squares[(r//3, c//3)]):
+                    return False
+
+                # Insert into row, column, and respective 3×3 box.
+                rows[r].add(val)
+                cols[c].add(val)
+                squares[(r//3, c//3)].add(val)
+
+        return True
