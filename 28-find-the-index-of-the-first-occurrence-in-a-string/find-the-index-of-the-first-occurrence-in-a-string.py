@@ -3,6 +3,12 @@ class Solution:
         if needle =="":
             return 0
         for i in range (len(haystack)+1-len(needle)):
-            if haystack [i:i+len(needle)]==needle:
-                return i 
+            found =True
+            for j in range (len(needle)):
+                if haystack[i+j]!=needle[j]:
+                    found = False 
+                    break
+            if found:
+                return i
+
         return -1
